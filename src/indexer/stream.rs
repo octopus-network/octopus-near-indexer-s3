@@ -1,4 +1,4 @@
-use crate::cache::raw::{IndexerRawTable, RawTableStruct};
+use crate::cache::raw::{IndexerRawTable, IndexerRawTableStruct};
 use crate::config::init_lake_config;
 use crate::pusher::http::push_block_to_engine;
 use crate::INDEXER;
@@ -6,7 +6,7 @@ use futures::StreamExt;
 use serde_json::json;
 
 pub async fn indexer_stream_from_s3() {
-    let config = init_lake_config().await.unwrap();
+    let config = init_lake_config().await;
 
     let stream = near_lake_framework::streamer(config);
 
@@ -29,14 +29,16 @@ pub async fn handle_streamer_message(
 
     let json = json!(streamer_message);
 
-    let raw = RawTableStruct {
+    let raw = IndexerRawTableStruct {
         prev_hash: streamer_message.block.header.prev_hash.to_string(),
         height: streamer_message.block.header.height as i64,
         hash: streamer_message.block.header.hash.to_string(),
         raw: json.clone(),
     };
 
-    IndexerRawTable::insert(raw).await.unwrap();
+    IndexerRawTable::insert(raw).await.expect("Insert db fail");
 
-    push_block_to_engine(&json).await.unwrap();
+    push_block_to_engine(&json)
+        .await
+        .expect("Push block http fail");
 }

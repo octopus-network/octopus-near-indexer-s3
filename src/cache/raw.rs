@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Iden)]
+#[iden(rename = "index_raw")]
 pub enum IndexerRawTable {
     Table,
     Hash,
@@ -18,14 +19,14 @@ pub enum IndexerRawTable {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default, sqlx::FromRow)]
-pub struct RawTableStruct {
+pub struct IndexerRawTableStruct {
     pub prev_hash: String,
     pub height: i64,
     pub hash: String,
     pub raw: Value,
 }
 
-impl RawTableStruct {
+impl IndexerRawTableStruct {
     pub fn build_insert(self) -> (String, Values) {
         let mut query = Query::insert()
             .into_table(IndexerRawTable::Table)
@@ -64,17 +65,17 @@ impl RawTableStruct {
 }
 
 impl IndexerRawTable {
-    pub async fn insert(raw: RawTableStruct) -> Result<()> {
-        let (sql, values) = RawTableStruct::build_insert(raw);
+    pub async fn insert(raw: IndexerRawTableStruct) -> Result<()> {
+        let (sql, values) = IndexerRawTableStruct::build_insert(raw);
         let _row = bind_query(sqlx::query(&sql), &values)
             .fetch_all(db_pool())
             .await?;
         Ok(())
     }
 
-    pub async fn select_current_height() -> Result<RawTableStruct> {
-        let (sql, values) = RawTableStruct::build_select_from_height_to_current();
-        let row = bind_query_as(sqlx::query_as::<_, RawTableStruct>(&sql), &values)
+    pub async fn select_current_height() -> Result<IndexerRawTableStruct> {
+        let (sql, values) = IndexerRawTableStruct::build_select_from_height_to_current();
+        let row = bind_query_as(sqlx::query_as::<_, IndexerRawTableStruct>(&sql), &values)
             .fetch_one(db_pool())
             .await?;
         Ok(row)

@@ -16,5 +16,5 @@ pub static DB_POOL: OnceCell<Pool<Postgres>> = OnceCell::new();
 pub static PROJECT_CONFIG: Lazy<Env> = Lazy::new(init_env_config);
 
 pub fn db_pool() -> &'static Pool<Postgres> {
-    DB_POOL.get().unwrap()
+    DB_POOL.get().expect("Get db pool fail")
 }

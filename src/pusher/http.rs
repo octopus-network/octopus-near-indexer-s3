@@ -17,6 +17,6 @@ pub async fn push_block_to_engine(json: &Value) -> Result<()> {
     return if StatusCode::is_success(&response.status()) {
         Ok(())
     } else {
-        Err(anyhow!(""))
+        Err(anyhow!("Push block error"))
     };
 }
