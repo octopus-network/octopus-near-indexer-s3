@@ -20,7 +20,7 @@ pub enum IndexerRaw {
 #[derive(Serialize, Deserialize, Debug, Clone, Default, sqlx::FromRow)]
 pub struct RawTableStruct {
     pub prev_hash: String,
-    pub height: u64,
+    pub height: i64,
     pub hash: String,
     pub raw: Value,
 }
@@ -46,15 +46,15 @@ impl RawTableStruct {
         query.build(PostgresQueryBuilder)
     }
 
-    // pub fn build_select_from_height_to_current() -> (String, Values) {
-    //     let mut query = Query::select()
-    //         .from(IndexerRaw::Table)
-    //         .expr(Expr::asterisk())
-    //         .to_owned();
-    //     query.order_by(IndexerRaw::Height, Order::Desc);
-    //     query.limit(1);
-    //     query.build(PostgresQueryBuilder)
-    // }
+    pub fn build_select_from_height_to_current() -> (String, Values) {
+        let mut query = Query::select()
+            .from(IndexerRaw::Table)
+            .expr(Expr::asterisk())
+            .to_owned();
+        query.order_by(IndexerRaw::Height, Order::Desc);
+        query.limit(1);
+        query.build(PostgresQueryBuilder)
+    }
 }
 
 impl IndexerRaw {
@@ -66,11 +66,11 @@ impl IndexerRaw {
         Ok(())
     }
 
-    // pub async fn select_current_height() -> Result<RawTableStruct> {
-    //     let (sql, values) = RawTableStruct::build_select_from_height_to_current();
-    //     let row = bind_query_as(sqlx::query_as::<_, RawTableStruct>(&sql), &values)
-    //         .fetch_one(db_pool())
-    //         .await?;
-    //     Ok(row)
-    // }
+    pub async fn select_current_height() -> Result<RawTableStruct> {
+        let (sql, values) = RawTableStruct::build_select_from_height_to_current();
+        let row = bind_query_as(sqlx::query_as::<_, RawTableStruct>(&sql), &values)
+            .fetch_one(db_pool())
+            .await?;
+        Ok(row)
+    }
 }

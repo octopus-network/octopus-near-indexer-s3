@@ -11,7 +11,7 @@ pub async fn services() {
     let router = Router::with_hoop(LogHandler).push(Router::new().path("<**>").handle(not_found));
     let service = Service::new(router);
     Server::new(TcpListener::bind(
-        &env::var("HTTP_LISTEN").expect("HTTP_LISTEN config fail"),
+        &env::var("HTTP_SERVER_LISTEN").expect("HTTP_SERVER_LISTEN config fail"),
     ))
     .serve(service)
     .await;

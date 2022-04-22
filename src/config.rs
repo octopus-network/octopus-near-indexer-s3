@@ -4,6 +4,7 @@ use near_lake_framework::LakeConfig;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use tracing_subscriber::EnvFilter;
+use crate::cache::raw::IndexerRaw;
 
 pub fn init_tracing() {
     let env_filter =
@@ -14,12 +15,22 @@ pub fn init_tracing() {
         .init();
 }
 
-pub fn init_lake_config() -> Result<LakeConfig> {
+pub async fn init_lake_config() -> Result<LakeConfig> {
+
+    let mut current_height = match IndexerRaw::select_current_height().await {
+        Ok(cache) => cache.height,
+        Err(_) => 0
+    };
+
+    if !env::var("START_BLOCK_HEIGHT_FROM_CACHE")?.parse::<bool>()? {
+        current_height = env::var("START_BLOCK_HEIGHT")?.parse::<i64>()?
+    }
+
     let lake_config = LakeConfig {
         s3_endpoint: None,
         s3_bucket_name: env::var("S3_BUCKET_NAME")?,
         s3_region_name: env::var("S3_REGION_NAME")?,
-        start_block_height: env::var("START_BLOCK_HEIGHT")?.parse::<u64>()?,
+        start_block_height: current_height as u64,
     };
     Ok(lake_config)
 }
