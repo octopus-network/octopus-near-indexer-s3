@@ -18,11 +18,14 @@ aws_secret_access_key=
 ### Cache
 Indexer S3 data Cache to PostgresDB.
 
-### Push
+### Indexer
+Get S3 data and tracking new block.
+
+### Pusher
 Http Client post message and event to url.
 
-### Http Server
-Http Server API to use cache.
+### Server
+Http Server API to use cache and S3.
 
 ### Env Config
 
