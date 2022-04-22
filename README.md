@@ -1,4 +1,22 @@
-## AWS S3 Credentials
+## Info
+
+### Cache
+Indexer S3 data Cache to PostgresDB.
+
+### Indexer
+Get S3 data and tracking new block.
+
+### Pusher
+Http Client post message and event to url.
+
+### Server
+Http Server API to use cache and S3.
+
+
+
+## How to Run
+
+### AWS S3 Credentials
 
 In order to be able to get objects from the AWS S3 bucket you need to provide the AWS credentials.
 
@@ -12,20 +30,6 @@ aws_secret_access_key=
 ```
 
 [AWS docs: Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
-
-## How to Run
-
-### Cache
-Indexer S3 data Cache to PostgresDB.
-
-### Indexer
-Get S3 data and tracking new block.
-
-### Pusher
-Http Client post message and event to url.
-
-### Server
-Http Server API to use cache and S3.
 
 ### Env Config
 
