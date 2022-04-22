@@ -15,7 +15,7 @@ aws_secret_access_key=
 
 [AWS docs: Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
 
-### How to RUN
+### How to Run
 
 change `.env.example` to `.env` and edit this.
 
