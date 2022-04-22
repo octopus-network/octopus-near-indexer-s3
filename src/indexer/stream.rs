@@ -1,9 +1,9 @@
 use crate::cache::raw::{IndexerRaw, RawTableStruct};
 use crate::config::init_lake_config;
-use crate::indexer::engine::push_block_to_engine;
 use crate::INDEXER;
 use futures::StreamExt;
 use serde_json::json;
+use crate::pusher::http::push_block_to_engine;
 
 pub async fn indexer_stream_from_s3() {
     let config = init_lake_config().await.unwrap();
