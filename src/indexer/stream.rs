@@ -23,5 +23,5 @@ pub async fn handle_streamer_message(
         streamer_message.shards.len()
     );
     // TODO: catch error and retry
-    // push_block_to_engine(streamer_message).await.unwrap();
+    push_block_to_engine(streamer_message).await.unwrap();
 }

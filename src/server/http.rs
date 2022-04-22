@@ -7,8 +7,7 @@ async fn not_found(res: &mut Response) {
 }
 
 pub async fn services() {
-    let router = Router::with_hoop(LogHandler)
-        .push(Router::new().path("<**>").handle(not_found));
+    let router = Router::with_hoop(LogHandler).push(Router::new().path("<**>").handle(not_found));
 
     let service = Service::new(router);
 
