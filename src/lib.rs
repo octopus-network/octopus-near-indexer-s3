@@ -4,8 +4,8 @@ use sqlx::{Pool, Postgres};
 
 pub mod cache;
 pub mod indexer;
+pub mod pusher;
 pub mod server;
-mod mod pusher;
 
 pub mod config;
 
