@@ -15,5 +15,8 @@ dotenv = "0.15.0"
 anyhow = "1.0"
 reqwest = { version = "0.11", features = ["json"] }
 salvo = { version = "^0.16", features = ["full"] }
+sea-query = { version = "^0.24", features = ["sqlx-postgres", "with-json"] }
+sqlx = { version = "^0.5", features = ["runtime-tokio-native-tls", "postgres", "macros", "json"] }
+once_cell = { version = "^1" }
 
 near-lake-framework = { git = "https://github.com/near/near-lake-framework", rev = "b14d37f71c5fcfe184d3084b1fe2d14b8f50780f" }

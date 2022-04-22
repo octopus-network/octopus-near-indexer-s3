@@ -1,5 +1,6 @@
 use salvo::extra::logging::LogHandler;
 use salvo::prelude::*;
+use std::env;
 
 #[fn_handler]
 async fn not_found(res: &mut Response) {
@@ -8,10 +9,10 @@ async fn not_found(res: &mut Response) {
 
 pub async fn services() {
     let router = Router::with_hoop(LogHandler).push(Router::new().path("<**>").handle(not_found));
-
     let service = Service::new(router);
-
-    Server::new(TcpListener::bind("127.0.0.1:7878"))
-        .serve(service)
-        .await;
+    Server::new(TcpListener::bind(
+        &env::var("HTTP_LISTEN").expect("HTTP_LISTEN config fail"),
+    ))
+    .serve(service)
+    .await;
 }
