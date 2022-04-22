@@ -1,4 +1,4 @@
-use crate::cache::raw::{IndexerRaw, RawTableStruct};
+use crate::cache::raw::{IndexerRawTable, RawTableStruct};
 use crate::config::init_lake_config;
 use crate::pusher::http::push_block_to_engine;
 use crate::INDEXER;
@@ -36,7 +36,7 @@ pub async fn handle_streamer_message(
         raw: json.clone(),
     };
 
-    IndexerRaw::insert(raw).await.unwrap();
+    IndexerRawTable::insert(raw).await.unwrap();
 
     push_block_to_engine(&json).await.unwrap();
 }

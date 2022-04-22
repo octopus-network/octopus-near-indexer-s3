@@ -1,4 +1,4 @@
-use crate::cache::raw::IndexerRaw;
+use crate::cache::raw::IndexerRawTable;
 use crate::server::res::Res;
 use crate::PROJECT_CONFIG;
 use salvo::extra::logging::LogHandler;
@@ -7,14 +7,14 @@ use serde_json::json;
 
 #[fn_handler]
 async fn current_height(res: &mut Response) {
-    let select = IndexerRaw::select_current_height().await;
+    let select = IndexerRawTable::select_current_height().await;
     match select {
-        Ok(data) => {
-            return Res::default()
-                .data(json!({ "height": data.height, "block": data }))
-                .ok(res)
-        }
-        Err(_) => return Res::default().data(json!({"height": 0, "block": {} })).ok(res),
+        Ok(data) => Res::default()
+            .data(json!({ "height": data.height, "block": data }))
+            .ok(res),
+        Err(_) => Res::default()
+            .data(json!({"height": 0, "block": {} }))
+            .ok(res),
     }
 }
 

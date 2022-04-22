@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Iden)]
-pub enum IndexerRaw {
+pub enum IndexerRawTable {
     Table,
     Hash,
     PrevHash,
@@ -27,12 +27,14 @@ pub struct RawTableStruct {
 
 impl RawTableStruct {
     pub fn build_insert(self) -> (String, Values) {
-        let mut query = Query::insert().into_table(IndexerRaw::Table).to_owned();
+        let mut query = Query::insert()
+            .into_table(IndexerRawTable::Table)
+            .to_owned();
         query.columns(vec![
-            IndexerRaw::PrevHash,
-            IndexerRaw::Height,
-            IndexerRaw::Hash,
-            IndexerRaw::Raw,
+            IndexerRawTable::PrevHash,
+            IndexerRawTable::Height,
+            IndexerRawTable::Hash,
+            IndexerRawTable::Raw,
         ]);
         query
             .values(vec![
@@ -42,22 +44,26 @@ impl RawTableStruct {
                 self.raw.into(),
             ])
             .expect("DB query data fail");
-        query.on_conflict(OnConflict::column(IndexerRaw::Hash).do_nothing().to_owned());
+        query.on_conflict(
+            OnConflict::column(IndexerRawTable::Hash)
+                .do_nothing()
+                .to_owned(),
+        );
         query.build(PostgresQueryBuilder)
     }
 
     pub fn build_select_from_height_to_current() -> (String, Values) {
         let mut query = Query::select()
-            .from(IndexerRaw::Table)
+            .from(IndexerRawTable::Table)
             .expr(Expr::asterisk())
             .to_owned();
-        query.order_by(IndexerRaw::Height, Order::Desc);
+        query.order_by(IndexerRawTable::Height, Order::Desc);
         query.limit(1);
         query.build(PostgresQueryBuilder)
     }
 }
 
-impl IndexerRaw {
+impl IndexerRawTable {
     pub async fn insert(raw: RawTableStruct) -> Result<()> {
         let (sql, values) = RawTableStruct::build_insert(raw);
         let _row = bind_query(sqlx::query(&sql), &values)

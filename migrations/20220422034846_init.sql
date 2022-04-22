@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "indexer_raw"
+CREATE TABLE IF NOT EXISTS "indexer_raw_table"
 (
     "hash"      text  PRIMARY KEY,
     "prev_hash" text  NOT NULL,

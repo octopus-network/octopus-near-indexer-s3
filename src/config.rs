@@ -1,4 +1,4 @@
-use crate::cache::raw::IndexerRaw;
+use crate::cache::raw::IndexerRawTable;
 use crate::{DB_POOL, PROJECT_CONFIG};
 use anyhow::Result;
 use near_lake_framework::LakeConfig;
@@ -28,7 +28,7 @@ pub fn init_tracing() {
 }
 
 pub async fn init_lake_config() -> Result<LakeConfig> {
-    let mut current_height = match IndexerRaw::select_current_height().await {
+    let mut current_height = match IndexerRawTable::select_current_height().await {
         Ok(cache) => cache.height,
         Err(_) => 0,
     };
