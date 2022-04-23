@@ -12,6 +12,27 @@ Http Client post message and event to url.
 ### Server
 Http Server API to use cache and S3.
 
+## Roadmap
+
+#### Cache
+
+- [ ] Local cache use RocksDB
+- [ ] DB fail Retry
+
+#### Indexer
+
+- [ ] From Cache
+- [ ] Network error retry
+
+#### Pusher
+
+- [ ] Websocket push
+
+#### Server
+
+- [ ] Add more api
+- [ ] GraphQL
+
 
 
 ## How to Run
