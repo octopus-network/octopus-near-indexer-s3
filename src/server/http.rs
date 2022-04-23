@@ -19,8 +19,8 @@ async fn current_height(res: &mut Response) {
 }
 
 pub async fn services() {
-    let router = Router::with_hoop(LogHandler)
-        .push(Router::new().path("/current/height").get(current_height));
+    let router =
+        Router::with_hoop(LogHandler).push(Router::new().path("/cache").get(current_height));
     let service = Service::new(router);
     Server::new(TcpListener::bind(&PROJECT_CONFIG.http_server_listen))
         .serve(service)
