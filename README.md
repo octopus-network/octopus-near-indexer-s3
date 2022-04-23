@@ -1,4 +1,6 @@
-## Info
+## octopus-near-indexer-s3
+
+![](./doc/images/main.svg)
 
 ### Cache
 Indexer S3 data cache to PostgresDB or RocksDB and Redis.
