@@ -1,16 +1,18 @@
 ## Info
 
 ### Cache
-Indexer S3 data Cache to PostgresDB.
+Indexer S3 data cache to PostgresDB or RocksDB and Redis.
+PostgresDB or RocksDB cache Indexer Raw.
+Redis cache state
 
 ### Indexer
-Get S3 data and tracking new block.
+Get S3 data and tracking new block. Based NEAR Lake.
 
 ### Pusher
-Http Client post message and event to url.
+Http Client post S3 data and state event to url path.
 
 ### Server
-Http Server API to use cache and S3.
+Http Server API to use cache and S3 data. Provide RESTful API and GraphQL.
 
 ## Roadmap
 
