@@ -1,6 +1,5 @@
 use crate::cache::raw::IndexerRawTable;
 use crate::{DB_POOL, PROJECT_CONFIG};
-use anyhow::Result;
 use near_lake_framework::LakeConfig;
 use sqlx::postgres::PgPoolOptions;
 use std::env;

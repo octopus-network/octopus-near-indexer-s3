@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Iden)]
-#[iden(rename = "index_raw")]
+#[iden(rename = "indexer_raw")]
 pub enum IndexerRawTable {
     Table,
     Hash,
