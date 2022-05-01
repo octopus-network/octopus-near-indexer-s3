@@ -25,17 +25,17 @@ Http Server API to use cache and S3 data. Provide RESTful API and GraphQL.
 
 #### Indexer
 
-- [ ] From Cache
+- [x] From Cache
 - [ ] Network error retry
 
 #### Pusher
 
-- [ ] Websocket push
+- [x] Websocket push (graphql-engine)
 
 #### Server
 
-- [ ] Add more api
-- [ ] GraphQL
+- [x] Add more api (graphql-engine)
+- [x] GraphQL (graphql-engine)
 
 
 
