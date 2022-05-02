@@ -57,8 +57,8 @@ pub fn init_env_config() -> Env {
             .unwrap()
             .parse::<i64>()
             .unwrap(),
-        push_engine: env::var("PUSH_ENGINE").unwrap().parse::<bool>().unwrap(),
-        push_engine_url: env::var("PUSH_ENGINE_URL").unwrap(),
+        push_engine: env::var("PUSH_SERVER").unwrap().parse::<bool>().unwrap(),
+        push_engine_url: env::var("PUSH_URL").unwrap(),
         http_server_listen: env::var("HTTP_SERVER_LISTEN").unwrap(),
         database_url: env::var("DATABASE_URL").unwrap(),
     }
