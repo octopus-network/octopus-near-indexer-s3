@@ -18,6 +18,11 @@ Http Client post S3 data and state event to url path.
 ### Server
 Http Server API to use cache and S3 data. Provide RESTful API and GraphQL.
 
+Get `HTTP_SERVER_LISTEN/cache` current sync height block data.
+
+Get `HTTP_SERVER_LISTEN/cache/<id>` custom height block data.
+
+
 ## Roadmap
 
 #### Cache
@@ -86,9 +91,3 @@ DATABASE_URL=postgres://nearscan_raw:nearscan_raw@192.168.20.40/nearscan
 cargo build --release
 ./target/release/octopus-near-indexer-s3
 ```
-
-## Server
-
-Get `HTTP_SERVER_LISTEN/cache` current sync height block data.
-
-Get `HTTP_SERVER_LISTEN/cache/<id>` custom height block data.
