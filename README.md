@@ -2,6 +2,8 @@
 
 ![](./doc/images/main.svg)
 
+## Doc
+
 ### Cache
 Indexer S3 data cache to PostgresDB or RocksDB and Redis.
 PostgresDB or RocksDB cache Indexer Raw.
@@ -84,3 +86,9 @@ DATABASE_URL=postgres://nearscan_raw:nearscan_raw@192.168.20.40/nearscan
 cargo build --release
 ./target/release/octopus-near-indexer-s3
 ```
+
+## Server
+
+Get `HTTP_SERVER_LISTEN/cache` current sync height block data.
+
+Get `HTTP_SERVER_LISTEN/cache/<id>` custom height block data.

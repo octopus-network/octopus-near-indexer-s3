@@ -62,6 +62,16 @@ impl IndexerRawTableStruct {
         query.limit(1);
         query.build(PostgresQueryBuilder)
     }
+
+    pub fn build_select_from_height(height: i64) -> (String, Values) {
+        let mut query = Query::select()
+            .from(IndexerRawTable::Table)
+            .expr(Expr::asterisk())
+            .to_owned();
+        query.and_where(Expr::col(IndexerRawTable::Height).eq(height));
+        query.limit(1);
+        query.build(PostgresQueryBuilder)
+    }
 }
 
 impl IndexerRawTable {
@@ -75,6 +85,14 @@ impl IndexerRawTable {
 
     pub async fn select_current_height() -> Result<IndexerRawTableStruct> {
         let (sql, values) = IndexerRawTableStruct::build_select_from_height_to_current();
+        let row = bind_query_as(sqlx::query_as::<_, IndexerRawTableStruct>(&sql), &values)
+            .fetch_one(db_pool())
+            .await?;
+        Ok(row)
+    }
+
+    pub async fn select_from_height(height: i64) -> Result<IndexerRawTableStruct> {
+        let (sql, values) = IndexerRawTableStruct::build_select_from_height(height);
         let row = bind_query_as(sqlx::query_as::<_, IndexerRawTableStruct>(&sql), &values)
             .fetch_one(db_pool())
             .await?;
