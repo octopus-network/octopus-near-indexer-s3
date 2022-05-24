@@ -6,11 +6,11 @@ use std::env;
 use tracing_subscriber::EnvFilter;
 
 pub struct Env {
-    pub(crate) s3_endpoint: Option<String>,
     pub(crate) s3_bucket_name: String,
     pub(crate) s3_region_name: String,
     pub(crate) start_block_height_from_cache: bool,
     pub(crate) start_block_height: i64,
+    pub(crate) end_block_height: i64,
     pub(crate) push_engine: bool,
     pub(crate) push_engine_url: String,
     pub(crate) http_server_listen: String,
@@ -37,16 +37,15 @@ pub async fn init_lake_config() -> LakeConfig {
     }
 
     LakeConfig {
-        s3_endpoint: PROJECT_CONFIG.s3_endpoint.clone(),
         s3_bucket_name: PROJECT_CONFIG.s3_bucket_name.clone(),
         s3_region_name: PROJECT_CONFIG.s3_region_name.clone(),
         start_block_height: current_height as u64,
+        s3_config: None,
     }
 }
 
 pub fn init_env_config() -> Env {
     Env {
-        s3_endpoint: None,
         s3_bucket_name: env::var("S3_BUCKET_NAME").unwrap(),
         s3_region_name: env::var("S3_REGION_NAME").unwrap(),
         start_block_height_from_cache: env::var("START_BLOCK_HEIGHT_FROM_CACHE")
@@ -54,6 +53,10 @@ pub fn init_env_config() -> Env {
             .parse::<bool>()
             .unwrap(),
         start_block_height: env::var("START_BLOCK_HEIGHT")
+            .unwrap()
+            .parse::<i64>()
+            .unwrap(),
+        end_block_height: env::var("END_BLOCK_HEIGHT")
             .unwrap()
             .parse::<i64>()
             .unwrap(),

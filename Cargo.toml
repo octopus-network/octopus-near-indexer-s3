@@ -18,5 +18,6 @@ salvo = { version = "^0.16", features = ["full"] }
 sea-query = { version = "^0.24", features = ["sqlx-postgres", "with-json"] }
 sqlx = { version = "^0.5", features = ["runtime-tokio-native-tls", "postgres", "macros", "json"] }
 once_cell = { version = "^1" }
+itertools = "0.9.0"
 
-near-lake-framework = { git = "https://github.com/near/near-lake-framework", rev = "b14d37f71c5fcfe184d3084b1fe2d14b8f50780f" }
+near-lake-framework = "0.4.0"
