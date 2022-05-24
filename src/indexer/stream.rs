@@ -21,13 +21,6 @@ pub async fn indexer_stream_from_s3() {
 pub async fn handle_streamer_message(
     streamer_message: near_lake_framework::near_indexer_primitives::StreamerMessage,
 ) {
-    tracing::info!(
-        target: INDEXER,
-        "{} / shards {}",
-        streamer_message.block.header.height,
-        streamer_message.shards.len()
-    );
-
     if streamer_message.block.header.height as i64 > PROJECT_CONFIG.end_block_height {
         tracing::info!(
             target: INDEXER,
@@ -36,6 +29,13 @@ pub async fn handle_streamer_message(
         );
         exit(0);
     }
+
+    tracing::info!(
+        target: INDEXER,
+        "{} / shards {}",
+        streamer_message.block.header.height,
+        streamer_message.shards.len()
+    );
 
     let json = json!(streamer_message);
 
