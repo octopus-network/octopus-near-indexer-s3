@@ -75,7 +75,7 @@ START_BLOCK_HEIGHT_FROM_CACHE=true
 START_BLOCK_HEIGHT=0
 
 // PUSH block and event to Engine if false ignore PUSH_ENGINE_URL
-PUSH_SERVER=false
+ENABLE_PUSH_SERVER=false
 PUSH_URL=http://127.0.0.1:8088
 
 // Http Server

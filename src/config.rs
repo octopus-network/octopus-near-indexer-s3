@@ -13,6 +13,7 @@ pub struct Env {
     pub(crate) end_block_height: i64,
     pub(crate) push_engine: bool,
     pub(crate) push_engine_url: String,
+    pub(crate) enable_http_server: bool,
     pub(crate) http_server_listen: String,
     pub(crate) database_url: String,
 }
@@ -60,8 +61,15 @@ pub fn init_env_config() -> Env {
             .unwrap()
             .parse::<i64>()
             .unwrap(),
-        push_engine: env::var("PUSH_SERVER").unwrap().parse::<bool>().unwrap(),
+        push_engine: env::var("ENABLE_PUSH_SERVER")
+            .unwrap()
+            .parse::<bool>()
+            .unwrap(),
         push_engine_url: env::var("PUSH_URL").unwrap(),
+        enable_http_server: env::var("ENABLE_HTTP_SERVER")
+            .unwrap()
+            .parse::<bool>()
+            .unwrap(),
         http_server_listen: env::var("HTTP_SERVER_LISTEN").unwrap(),
         database_url: env::var("DATABASE_URL").unwrap(),
     }

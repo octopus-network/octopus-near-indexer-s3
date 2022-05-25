@@ -33,6 +33,9 @@ async fn cache(req: &mut Request, res: &mut Response) {
 }
 
 pub async fn services() {
+    if !PROJECT_CONFIG.enable_http_server {
+        return;
+    }
     let router = Router::with_hoop(LogHandler)
         .push(Router::new().path("/cache").get(current_height))
         .push(Router::new().path("/cache/<id>").get(cache));
