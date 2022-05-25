@@ -2,9 +2,11 @@ use crate::cache::raw::{IndexerRawTable, IndexerRawTableStruct};
 use crate::config::init_lake_config;
 use crate::pusher::http::push_block_to_engine;
 use crate::{INDEXER, PROJECT_CONFIG};
+use chrono::NaiveDateTime;
 use futures::StreamExt;
 use serde_json::json;
 use std::process::exit;
+use std::time::Duration;
 
 pub async fn indexer_stream_from_s3() {
     let config = init_lake_config().await;
@@ -39,11 +41,19 @@ pub async fn handle_streamer_message(
 
     let json = json!(streamer_message);
 
+    let nanos_timestamp = Duration::from_nanos(streamer_message.block.header.timestamp_nanosec);
+
+    let date = NaiveDateTime::from_timestamp(
+        nanos_timestamp.as_secs() as i64,
+        nanos_timestamp.subsec_nanos(),
+    );
+
     let raw = IndexerRawTableStruct {
         prev_hash: streamer_message.block.header.prev_hash.to_string(),
         height: streamer_message.block.header.height as i64,
         hash: streamer_message.block.header.hash.to_string(),
         raw: json.clone(),
+        date,
     };
 
     IndexerRawTable::insert(raw).await.expect("Insert db fail");

@@ -2050,6 +2050,7 @@ name = "octopus-near-indexer-s3"
 version = "0.0.1"
 dependencies = [
  "anyhow",
+ "chrono",
  "dotenv",
  "futures",
  "itertools 0.9.0",
@@ -2810,6 +2811,7 @@ version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "98c00ec63c36fc2c18c3aa5849e2f361d4f47fbaba9785d9251ec6b08ad5fe19"
 dependencies = [
+ "chrono",
  "sea-query-derive",
  "sea-query-driver",
  "serde_json",
@@ -3072,6 +3074,7 @@ dependencies = [
  "bitflags",
  "byteorder",
  "bytes",
+ "chrono",
  "crc",
  "crossbeam-queue",
  "dirs",

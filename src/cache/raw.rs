@@ -2,6 +2,7 @@ sea_query::sea_query_driver_postgres!();
 
 use crate::db_pool;
 use anyhow::Result;
+use chrono::NaiveDateTime;
 use sea_query::{Expr, Iden, OnConflict, Order, PostgresQueryBuilder, Query, Values};
 use sea_query_driver_postgres::bind_query;
 use sea_query_driver_postgres::bind_query_as;
@@ -16,14 +17,16 @@ pub enum IndexerRawTable {
     PrevHash,
     Height,
     Raw,
+    Date,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Default, sqlx::FromRow)]
+#[derive(Serialize, Deserialize, Debug, Clone, sqlx::FromRow)]
 pub struct IndexerRawTableStruct {
     pub prev_hash: String,
     pub height: i64,
     pub hash: String,
     pub raw: Value,
+    pub date: NaiveDateTime,
 }
 
 impl IndexerRawTableStruct {
@@ -36,6 +39,7 @@ impl IndexerRawTableStruct {
             IndexerRawTable::Height,
             IndexerRawTable::Hash,
             IndexerRawTable::Raw,
+            IndexerRawTable::Date,
         ]);
         query
             .values(vec![
@@ -43,10 +47,11 @@ impl IndexerRawTableStruct {
                 self.height.into(),
                 self.hash.into(),
                 self.raw.into(),
+                self.date.into(),
             ])
             .expect("DB query data fail");
         query.on_conflict(
-            OnConflict::column(IndexerRawTable::Hash)
+            OnConflict::columns(vec![IndexerRawTable::Hash, IndexerRawTable::Date])
                 .do_nothing()
                 .to_owned(),
         );
