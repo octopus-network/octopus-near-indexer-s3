@@ -32,13 +32,6 @@ pub async fn handle_streamer_message(
         exit(0);
     }
 
-    tracing::info!(
-        target: INDEXER,
-        "{} / shards {}",
-        streamer_message.block.header.height,
-        streamer_message.shards.len()
-    );
-
     let json = json!(streamer_message);
 
     let nanos_timestamp = Duration::from_nanos(streamer_message.block.header.timestamp_nanosec);
@@ -61,4 +54,11 @@ pub async fn handle_streamer_message(
     push_block_to_engine(&json)
         .await
         .expect("Push block http fail");
+
+    tracing::info!(
+        target: INDEXER,
+        "Save {} / shards {}",
+        streamer_message.block.header.height,
+        streamer_message.shards.len()
+    );
 }
