@@ -1,13 +1,12 @@
 use crate::cache::raw::IndexerRawTable;
 use crate::{DB_POOL, PROJECT_CONFIG};
-use near_lake_framework::LakeConfig;
+use near_lake_framework::{LakeConfig, LakeConfigBuilder};
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use tracing_subscriber::EnvFilter;
+// use near_lake_framework::LakeConfigBuilder;
 
 pub struct Env {
-    pub(crate) s3_bucket_name: String,
-    pub(crate) s3_region_name: String,
     pub(crate) start_block_height_from_cache: bool,
     pub(crate) start_block_height: i64,
     pub(crate) end_block_height: i64,
@@ -37,18 +36,24 @@ pub async fn init_lake_config() -> LakeConfig {
         current_height = PROJECT_CONFIG.start_block_height;
     }
 
-    LakeConfig {
-        s3_bucket_name: PROJECT_CONFIG.s3_bucket_name.clone(),
-        s3_region_name: PROJECT_CONFIG.s3_region_name.clone(),
-        start_block_height: current_height as u64,
-        s3_config: None,
-    }
+    LakeConfigBuilder::default()
+        .mainnet()
+        .start_block_height(current_height as u64)
+        .build()
+        .expect("failed to start block height")
+
+    // LakeConfig {
+    //     s3_bucket_name: PROJECT_CONFIG.s3_bucket_name.clone(),
+    //     s3_region_name: PROJECT_CONFIG.s3_region_name.clone(),
+    //     start_block_height: current_height as u64,
+    //     s3_config: None,
+    // }
 }
 
 pub fn init_env_config() -> Env {
     Env {
-        s3_bucket_name: env::var("S3_BUCKET_NAME").unwrap(),
-        s3_region_name: env::var("S3_REGION_NAME").unwrap(),
+        // s3_bucket_name: env::var("S3_BUCKET_NAME").unwrap(),
+        // s3_region_name: env::var("S3_REGION_NAME").unwrap(),
         start_block_height_from_cache: env::var("START_BLOCK_HEIGHT_FROM_CACHE")
             .unwrap()
             .parse::<bool>()

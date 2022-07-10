@@ -21,4 +21,4 @@ chrono = "0.4"
 once_cell = { version = "^1" }
 itertools = "0.9.0"
 
-near-lake-framework = "0.4.0"
+near-lake-framework = "0.5.0"
